@@ -1,0 +1,71 @@
+TODO:                       /
+Read enemies in from file \/       /
+Create random battle forma/tions \/
+Get rewards from battle \/
+Implement levels            /  
+Show when enemies are dead\/
+Add more of a GUI to battle\
+
+
+Items:
+Healing:
+3 classes for health
+3 classes for magic
+Revive?
+
+Weapons:
+2 swords
+2 axes
+2 bows?
+
+Armour:
+2 chestplate
+2 helmet
+2 leggings
+
+
+                    current_action = None
+                    #Make sure our turn isnt skipped
+                    while (current_action == None):
+                        print("\nSelect an action: ")
+                        print("1: Attack")
+                        print("2: Guard\n")
+                        key_press = self.window.getKey()
+                        
+                        #Now we figure out what to do
+
+                        #TODO: fix this code up, maybe move it into other methods
+                        if (key_press == "1"):
+                            print("Who would you like to attack?")
+                            self.select_target.draw(self.window)
+                            i = 0
+                            for enemy in self.enemies:
+                                print(str(i)+":",enemy)
+                                i+=1
+                            print()
+                            
+                            #Make sure the loop is now broken
+                            current_action = key_press
+                            decided_action = None
+                            while (decided_action == None):
+                                #figure out what enemy to attack 
+                                key_press= self.window.getKey()
+                                
+                                #TODO: Make it so it has to pick a valid option
+                                if (key_press.isdigit()):
+                                    if (int(key_press) < len(self.enemies)):
+                                        decided_action = "Attack"
+                                        print("Player is attacking monster", key_press)
+                                        action_queue.append(["attack",player,self.enemies[int(key_press)]])
+                                        print(self.enemies[int(key_press)])
+                                        self.select_target.undraw()
+                                if (key_press == "BackSpace"):
+                                    print("\nGoing back a level")
+                                    self.select_target.undraw()
+                                    current_action = None
+                                    break
+                        elif key_press == "2":
+                            action_queue.append(["guard",player,player])
+
+Misc:
+arrows?

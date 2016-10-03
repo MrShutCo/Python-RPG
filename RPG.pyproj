@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7bd6de46-7156-4691-9a33-6e8704395ccb}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>rpg.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <InterpreterVersion />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="design.txt" />
+    <Content Include="Rooms\room_1.gif" />
+    <Content Include="Rooms\room_1_info.txt" />
+    <Content Include="Rooms\room_2.gif" />
+    <Content Include="Sprites\apple.gif" />
+    <Content Include="Sprites\battle_background.gif" />
+    <Content Include="Sprites\brick.gif" />
+    <Content Include="Sprites\chest_closed.gif" />
+    <Content Include="Sprites\chest_open.gif" />
+    <Content Include="Sprites\elixer.gif" />
+    <Content Include="Sprites\floor.gif" />
+    <Content Include="Sprites\goblin.gif" />
+    <Content Include="Sprites\grass.gif" />
+    <Content Include="Sprites\hero.gif" />
+    <Content Include="Sprites\hero_battle.gif" />
+    <Content Include="Sprites\npc.gif" />
+    <Content Include="Sprites\potion.gif" />
+    <Content Include="Sprites\skeleton.gif" />
+    <Content Include="Sprites\sword.gif" />
+    <Content Include="Sprites\sword_wooden.gif" />
+    <Content Include="Sprites\tree.gif" />
+    <Content Include="Sprites\wall.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="battle.py" />
+    <Compile Include="camera.py" />
+    <Compile Include="character.py" />
+    <Compile Include="entity.py" />
+    <Compile Include="graphics.py" />
+    <Compile Include="grid.py" />
+    <Compile Include="inventory.py" />
+    <Compile Include="level_reader.py" />
+    <Compile Include="rpg.py" />
+    <Compile Include="stats.py" />
+    <Compile Include="textbox.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Rooms" />
+    <Folder Include="Sprites" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>

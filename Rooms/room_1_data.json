@@ -1,0 +1,27 @@
+{
+    "npcs": [
+    
+        {
+                 "name": "Old man",
+                 "text": [
+                          "Welcome adventurer, before you lies a terrible adventure...",
+                          "In order to be safe, take this sword",
+                          "Obtained sword."
+                         ],
+                 "position": "5,5",
+                 "file_name": "Sprites/npc.gif"
+        },
+        {        
+                 "name": "Shopkeeper",
+                 "text": [
+                          "Why hello there! I don't get many customers anymore...", 
+                          "It might have to do with the fact that we're stuck here", 
+                          "Anyways, what can I get for you?", 
+                          "INSERT SHOP HERE"
+                         ],
+                 "position": "34,5",
+                 "file_name": "Sprites/npc.gif"
+        }
+                     
+        ]
+}
