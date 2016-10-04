@@ -52,7 +52,6 @@ class Grid:
                 color = image2.getPixel(x,y)
                 if color == [0,0,0]:
                     continue
-                #TODO: Right now, clear colours show up
                 image2.setPixel(x,y,g.color_rgb(color[0],color[1],color[2]))
         return image2
 

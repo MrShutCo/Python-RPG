@@ -1,11 +1,23 @@
-TODO:                       /
+TODO:    
+Part 1                      /
 Read enemies in from file \/       /
-Create random battle forma/tions \/
-Get rewards from battle \/
-Implement levels            /  
-Show when enemies are dead\/
-Add more of a GUI to battle\
+Create random battle forma /tions\/
+Get rewards from ba/ttle \/
+Implement levels \/         /  
+Show when enemies are dead\/ /
+Add more of a GUI to battle\/
 
+Part 2
+Finish adding the items                       /
+Actions have a weighted chance of happening \/
+Add Shop
+Add more dialogue
+Flesh out more battle mechanics \
+Upgrade world look
+Access to inventory from battle
+Use items
+
+Maybe add new rooms to goto?
 
 Items:
 Healing:
@@ -14,7 +26,7 @@ Healing:
 Revive?
 
 Weapons:
-2 swords
+2 swords 
 2 axes
 2 bows?
 

@@ -26,6 +26,8 @@ def main():
     #TODO: Change this so it reads from JSON
     Grid.SetTileAt(Item_Container(win,15,15,None,i.getItemByName("Potion", item_list),True))
     Grid.SetTileAt(Item_Container(win,17,15,None,i.getItemByName("Apple", item_list),True))
+    Grid.SetTileAt(Item_Container(win,19,15,None,i.getItemByName("Potion", item_list),True))
+    Grid.SetTileAt(Item_Container(win,13,15,None,i.getItemByName("Apple", item_list),True))
     Grid.SetTileAt(Item_Container(win,45,45,"Sprites/sword_wooden.gif",i.getItemByName("Wooden Sword", item_list),False))
     
     #Grid.SetTileAt(Teleporter(win,Grid,4,4,"npc.gif",("Rooms/room_2.gif",15,15)))

@@ -3,7 +3,9 @@ import entity
 import time
 import inventory
 import stats as s
+import textbox
 
+import random
 import battle
 
 class character(entity.Entity):
@@ -15,9 +17,9 @@ class character(entity.Entity):
         self.can_move = True
         self.direction = "North"
         self.inv_open = False
-        self.actions = ["attack","guard"]
+        self.actions = ["attack","special","guard","run"]
         self.inventory = inventory.Inventory()
-        self.stats = s.Stats(100,10,10,10,0,0)
+        self.stats = s.Stats(100,10,5,10,0,0)
 
     def getActions(self):
         return self.actions
@@ -34,6 +36,8 @@ class character(entity.Entity):
             return_action = self.attack(enemies)
         if action == "guard":
             return_action = self.guard()
+        if action == "run":
+            return_action = ["run",self,self]
         return return_action
 
     #-------------------------------#
@@ -97,7 +101,12 @@ class character(entity.Entity):
                     self.inv_open = False
                     
                 if key_press == 'r':
-                    battle.Battle(self)
+                    fight = battle.Battle(self)
+                    fight = None
+                
+                if key_press == 'q':
+                    message = textbox.Selection(self.window,[250,100],["Play","Guard","Third"])
+                    print(message.getSelection())
             if key_press == "Return":
                 self._interact()
             time.sleep(1/30)
@@ -140,22 +149,44 @@ import random
 
 class Monster(entity.Entity):
 
-    def __init__(self,win,_id,name,x,y,image_name,stats,actions):
+    def __init__(self,win,_id,name,x,y,image_name,stats,actions,action_chance):
         entity.Entity.__init__(self,win,x,y,image_name,True)
         self.image = g.Image(g.Point(x,y), image_name)
         self.id = _id
         self.name = name
         self.stats = s.Stats(stats[0],stats[1],stats[2],stats[3],stats[4],stats[5])
         self.actions = actions
+        self.action_chance = action_chance
+        self.name_text = g.Text(g.Point(0,0),name)
+        
+
+    def set_battle_formation(self,x,y,index):
+        self.name_text.undraw()
+        self.indexer = g.Text(g.Point(self.x,self.y-40),"")
+        self.name_text = g.Text(g.Point(x,y),("{}: {}".format(index,self.name)))
+        self.name_text.setSize(15)
+        self.name_text.draw(self.window)
+        self.indexer.setText("[{}]".format(index))
+        print(self.indexer.getText())
+        self.indexer.draw(self.window)
         
     def create_action(self):
-        action = random.randrange(len(self.actions))
-        return self.actions[action]
+        possible_choices = []
+        for choice in range(len(self.actions)):
+            possible_choices += [self.actions[choice]] * self.action_chance[choice]
+        return random.choice(possible_choices)
 
     def update_formation(self):
         self.image.undraw()
         self.image = g.Image(g.Point(self.x,self.y),self.image_name)
         self.image.draw(self.window)
+
+    def clone(self):
+        return Monster(self.window,self.id,self.name,
+                       self.x,self.y,self.image_name,
+                       [self.stats.MaxHp,self.stats.Attack,
+                       self.stats.Defense,self.stats.Speed,
+                       self.stats.Gold,self.stats.Xp],self.actions,self.action_chance)
 
     def __repr__(self):
         return self.name
@@ -169,7 +200,11 @@ def CreateBattleFormation(monster_count):
     print(monster_list)
     monsters = []
     formation = None
+
+    for enemy in monster_list:
+        print(enemy.stats)
     
+        
     if monster_count == 1:
             formation = formation_1
     if monster_count == 2:
@@ -178,16 +213,11 @@ def CreateBattleFormation(monster_count):
         formation = formation_3[0]
 
     for i in range(monster_count):
-        monster = monster_list[random.randrange(len(monster_list))]
-        new_monster = Monster(monster.window,monster.id,monster.name,monster.x,monster.y,monster.image_name,[0,0,0,0,0,0],monster.actions)
+        monster = random.choice(monster_list).clone()
+        new_monster = Monster(monster.window,monster.id,monster.name,monster.x,monster.y,monster.image_name,[0,0,0,0,0,0],monster.actions,monster.action_chance)
         new_monster.stats = monster.stats
         new_monster.x = formation[i].getX()
         new_monster.y = formation[i].getY()
         monsters.append(new_monster)
         
     return monsters
-        
-        
-
-    return monsters
-    

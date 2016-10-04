@@ -1,42 +1,46 @@
 {
 	"items": [
 
-		{
-			"id": 0,
-			"name": "Apple",
-			"class": "Healing",
-			"description": "A plain red apple that heals 10 hp",
-			"health": 10,
-			"file_name": "Sprites/apple.gif"
-		}, {
-			"id": 1,
-			"name": "Potion",
-			"class": "Healing",
-			"description": "Potion with magical healing powers of +30",
-			"health": 30,
-			"file_name": "Sprites/potion.gif"
-		}, {
-			"id": 2,
-			"name": "Elixer",
-			"class": "Healing",
-			"description": "A godsend that heals all hp",
-			"health": "MAX",
-			"file_name": "Sprites/elixer.gif"
-		}, {
-			"id": 3,
-			"name": "Wooden Sword",
-			"class": "Weapon",
-			"description": "A cheap, but sturdy sword that is meant for beginners",
-			"damage": 5,
-			"file_name": "Sprites/sword_wooden.gif"
-		}, {
-			"id": 4,
-			"name": "Metal sword",
-			"class": "Weapon",
-			"description": "A well worn sword much more powerful than the wooden one",
-			"damage": 15,
-			"file_name": "Sprites/sword.gif"
-		}
+    {
+      "id": 0,
+      "name": "Apple",
+      "class": "Healing",
+      "description": "A plain red apple that heals 10 hp",
+      "health": 10,
+      "file_name": "Sprites/apple.gif"
+    },
+    {
+      "id": 1,
+      "name": "Potion",
+      "class": "Healing",
+      "description": "Potion with magical healing powers of +30",
+      "health": 30,
+      "file_name": "Sprites/potion.gif"
+    },
+    {
+      "id": 2,
+      "name": "Elixir",
+      "class": "Healing",
+      "description": "A godsend that heals all hp",
+      "health": "MAX",
+      "file_name": "Sprites/elixir.gif"
+    },
+    {
+      "id": 3,
+      "name": "Wooden Sword",
+      "class": "Weapon",
+      "description": "A cheap, but sturdy sword that is meant for beginners",
+      "damage": 5,
+      "file_name": "Sprites/sword_wooden.gif"
+    },
+    {
+      "id": 4,
+      "name": "Metal sword",
+      "class": "Weapon",
+      "description": "A well worn sword much more powerful than the wooden one",
+      "damage": 15,
+      "file_name": "Sprites/sword.gif"
+    }
 	],
   "monsters": [
     {
@@ -44,21 +48,40 @@
       "name": "Goblin",
       "stats": "30,5,5,5,10,10",
       "file_name": "Sprites/Monsters/goblin.gif",
-      "actions": [ "attack", "guard" ]
+      "actions": {
+        "attack": 70,
+        "guard": 30
+      }
     },
     {
       "id": 1,
       "name": "Skeleton",
       "stats": "50,7,3,7,20,5",
       "file_name": "Sprites/Monsters/skeleton.gif",
-      "actions": [ "attack", "guard" ]
+      "actions": {
+        "attack": 7,
+        "guard": 3
+      }
     },
     {
       "id": 2,
       "name": "Wizard",
       "stats": "40,8,1,8,5,20",
       "file_name": "Sprites/Monsters/wizard.gif",
-      "actions": [ "attack", "magic", "guard" ]
+      "actions": {
+        "attack": 7,
+        "guard": 3
+      }
+    },
+    {
+      "id": 3,
+      "name": "Chaos Worm",
+      "stats": "70,12,12,3,25,25",
+      "file_name": "Sprites/Monsters/worm.gif",
+      "actions": {
+        "attack": 7,
+        "guard": 3
+      }
     }
   ]
 }

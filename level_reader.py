@@ -17,6 +17,8 @@ def load_level(win, grid, file_name):
                 grid.SetTileAt(e.Entity(win,x,y,"Sprites/tree.gif",False))
             if color == [255,255,0]:
                 grid.SetTileAt(e.Entity(win,x,y,"Sprites/floor.gif",True))
+            #if color == [255,255,255]:
+            #    grid.SetTileAt(e.Entity(win,x,y,"Sprites/grass.gif",True))
             if color == [255,0,0]:
                 grid.SetTileAt(e.Entity(win,x,y,"Sprites/brick.gif",False))
             if color == [0,255,0]:
@@ -35,15 +37,20 @@ def load_defenitions(win,file_name):
         prototypes_items.append(new_item)
     
     
-    for monster in range(3):
+    for monster in range(4):
         monster_data = data["monsters"][monster]
         monster_info = monster_data["stats"].split(",")
         monster_stats = []
+
+        monster_actions = list(monster_data["actions"].keys())
+        monster_chances = list(monster_data["actions"].values())
+
+        print(monster_actions,monster_chances)
+        
         for stats in monster_info:
             monster_stats.append(int(stats))
-        
         print(monster_stats)
-        new_monster = c.Monster(win,monster_data["id"],monster_data["name"],-50,-50,monster_data["file_name"],monster_stats,monster_data["actions"])
+        new_monster = c.Monster(win,monster_data["id"],monster_data["name"],-50,-50,monster_data["file_name"],monster_stats,monster_actions,monster_chances)
         prototypes_monsters.append(new_monster)
         
     return prototypes_items, prototypes_monsters

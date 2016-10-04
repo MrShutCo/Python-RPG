@@ -56,7 +56,8 @@ class Item_Container(Entity):
         self.is_chest = is_chest
         self.taken = False
         self.textbox = textbox.TextBox(window,["You have obtained {}".format(item.Name)])
-        
+       
+
     def use(self, hero):
         if self.is_chest:
             #TODO: Convert this code over to when you change a room

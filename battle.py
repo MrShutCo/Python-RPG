@@ -1,5 +1,6 @@
 from graphics import Image,Point,Rectangle,Text
 import character
+import textbox
 
 import operator
 import time
@@ -11,12 +12,11 @@ class Battle:
     #TODO: Have all the little info about each monster contained in the monster class, and not cluttering up here
     def __init__(self,hero):
         self.hero = hero
-        self.enemies = character.CreateBattleFormation(random.randrange(1,3))
-        self.enemies_index = []
+        self.enemies = character.CreateBattleFormation(random.choice([1,2,3]))
         
         self.window = hero.window
         
-        self.background = Image(Point(251,250),"Sprites/battle_background.gif")
+        self.background = Image(Point(250,250),"Sprites/forest.gif")
         self.background.draw(self.window)
         
         self.options_bar = Rectangle(Point(0,400),Point(500,500))
@@ -24,7 +24,7 @@ class Battle:
         self.options_bar.draw(self.window)
         
         self.select_target = Text(Point(75,314-48),"Select a target 0-{}".format(len(self.enemies)-1))
-
+        
         self._draw_sprites()
         self._start_battle()
         self._undraw_sprites()
@@ -33,19 +33,21 @@ class Battle:
         self.hero_image.undraw()
         self.background.undraw()
         
+        self.hero.stats.UndrawHealthBar()
+
         for enemy in self.enemies:
             enemy.image.undraw()
+            enemy.indexer.undraw()
+            enemy.name_text.undraw()
+            enemy.stats.CurrentHp = enemy.stats.MaxHp
 
         self.options_bar.undraw()
         
         for option in self.options:
             option.undraw()
-
-        for name in self.enemy_names:
-            name.undraw()
         
     def _draw_sprites(self):
-        self.hero_image = Image(Point(75,314),"Sprites/hero_battle_2.gif")
+        self.hero_image = Image(Point(75,250),"Sprites/hero_battle_2.gif")
         self.hero_image.draw(self.window)
 
         self.options = []
@@ -57,15 +59,13 @@ class Battle:
             y += 25
 
         self.enemy_names = []
+        self.hero.stats.DrawHealthBar(self.window)
         
         y = 415
         for enemy in range(len(self.enemies)):
             curr_enemy = self.enemies[enemy]
             curr_enemy.update_formation()
-            self.enemy_names.append(Text(Point(400,y),"{}:{}".format(enemy,curr_enemy)))
-            self.enemies_index.append(Text(Point(curr_enemy.x,curr_enemy.y-40),"[{}]".format(enemy)))
-            self.enemies_index[enemy].draw(self.window)
-            self.enemy_names[enemy].setSize(15)
+            curr_enemy.set_battle_formation(400,y,enemy)
             y += 25
             
         for name in self.enemy_names:
@@ -76,6 +76,7 @@ class Battle:
         #All logic will go here
         
         is_over = False
+        has_won = True
         sum_hp = 0
         for enemy in self.enemies:
             sum_hp += enemy.stats.CurrentHp
@@ -136,37 +137,56 @@ class Battle:
                         #time.sleep(0.5)
                     
             #Now we process the actions
-            #TODO: Make it so the actual damage is done
             #TODO: flesh out more
             if is_over == False:
                 print("\nActions taken this turn: ")
                 for action in action_queue:
-                    if action[0] == "attack":
-                        print("{} attacked {} for {}dmg".format(action[1],action[2],action[1].stats.Attack))
-                        action[2].stats.Damage(action[1].stats.Attack - action[2].stats.Defense / 2)
-                        if action[2].stats.CurrentHp == 0:
-                            action[2].image.undraw()
-                    if action[0] == "guard":
-                        print("{} guarded".format(action[1]))
-                    #time.sleep(0.35)
+                    if is_over == False:
+                        if action[0] == "attack":
+                            calc_damage = random.randint(0,4) + action[1].stats.Attack - action[2].stats.Defense / 2
+                            textbox.MessageBox(self.window,"{} attacked {} for {} damage".format(action[1],action[2],calc_damage))
+                            action[2].stats.Damage(calc_damage)
+                            if action[2].stats.CurrentHp == 0:
+                                action[2].image.undraw()
+                                if type(action[2]) == character:
+                                    textbox.MessageBox(self.window,"You dead")
+                                    is_over = True
+                                    has_won = False
+                                action[2].name_text.undraw()
+                                action[2].indexer.undraw()
+                        if action[0] == "guard":
+                            textbox.MessageBox(self.window,"{} guarded".format(action[1]))
+                        if action[0] == "run":
+                            textbox.MessageBox(self.window,"You ran away like a wimp")
+                            is_over = True
+                            has_won = False
+                        sum_hp = 0
+                        for enemy in self.enemies:
+                            print("{} has {}/{}hp".format(enemy,enemy.stats.CurrentHp,enemy.stats.MaxHp))
+                            sum_hp += enemy.stats.CurrentHp
+        
+                        average_enemy_hp = float(sum_hp/len(self.enemies))
+                        if average_enemy_hp == 0:
+                            is_over = True
+                            has_won = True
+                            #break
                     
             print()
-            sum_hp = 0
-            for enemy in self.enemies:
-                print("{} has {}/{}hp".format(enemy,enemy.stats.CurrentHp,enemy.stats.MaxHp))
-                sum_hp += enemy.stats.CurrentHp
-        
-            average_enemy_hp = float(sum_hp/len(self.enemies))
+            
             print(average_enemy_hp)
         #Now that we are done, lets do stuff!
 
         #TODO: Add options for losing, as well as possibly gaining items
-        if self.hero.stats.CurrentHp != 0:
+        if self.hero.stats.CurrentHp != 0 and has_won:
+            textbox.MessageBox(self.window,"Victory!")
             total_gold_won = 0
             total_xp_won = 0
             for enemy in self.enemies:
                 total_gold_won += enemy.stats.Gold
                 total_xp_won += enemy.stats.Xp
             self.hero.add_gold(total_gold_won)
+            textbox.MessageBox(self.window,"You gained {} gold".format(total_gold_won))
+            textbox.MessageBox(self.window,"You gained {} xp".format(total_xp_won))
+
             self.hero.add_xp(total_xp_won)
-        self.window.getMouse()
+            self.hero.stats.CheckLevelUp()

@@ -27,6 +27,7 @@ class Inventory:
         
         for item in self.items:
             #Make the grid if theres too much
+            #TODO: Actually draw the grid for the items
             if (i * 32 + 64 + 8 > 500):
                 i = 0
                 y += 32
@@ -95,7 +96,6 @@ class Item:
         self.Desc = _desc
         self.File_name = file_name
         self.image = g.Image(g.Point(0,0),file_name)
-        #TODO: make this polymorphic
     
     def clone(self):
         other = Item(self.Id,self.Name,self.Class,self.Desc,self.File_name)
